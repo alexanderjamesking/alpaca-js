@@ -35,7 +35,6 @@ myRoute.on('direct:out', function(exchange) {
   console.log(exchange.message.body);
 });
 
-// example of processing a route - this will be done with events via a context
-// soon
+// example of processing a route - this will be done with events via a context soon
 myRoute.process(new Alpaca.Exchange());
 ```
