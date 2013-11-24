@@ -1,6 +1,7 @@
 {
   "name" : "alpaca",
   "description": "EIP for Node.js, heavily influenced by Apache Camel",
+  "main": "./lib/alpaca",
   "author": {
     "name": "Alex King",
     "url" : "http://alexanderjamesking.com"
