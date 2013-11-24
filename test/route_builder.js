@@ -1,7 +1,8 @@
 var should = require('should'),
     RouteBuilder = require('../lib/route_builder'),
     Route = require('../lib/route'),
-    Pipeline = require('../lib/pipeline');
+    Pipeline = require('../lib/pipeline'),
+    TextAppender = require('./processor/text_appender');
 
 describe('RouteBuilder', function() {
 
@@ -26,22 +27,14 @@ describe('RouteBuilder', function() {
 
   describe('process', function() {
     it('should add a processor to the pipeline', function() {
-      var builder = new RouteBuilder().process(createProcessor());
+      var builder = new RouteBuilder().process(new TextAppender('foo'));
       builder.pipeline.processors.length.should.equal(1);
     });
   });
 
-  function createProcessor() {
-    return {
-      process : function(exchange, callback) {
-        callback(null, exchange);
-      }
-    }
-  }
-
   it('should allow chaining of methods', function() {
     var builder = new RouteBuilder().from('fromuri')
-                                    .process(createProcessor())
+                                    .process(new TextAppender('foo'))
                                     .to('touri');
     builder.from.should.equal('fromuri');
     builder.pipeline.processors.length.should.equal(1);
@@ -51,7 +44,7 @@ describe('RouteBuilder', function() {
   describe('build', function() {
     it('should create a route', function() {
       var builder = new RouteBuilder().from('fromuri')
-                                      .process(createProcessor())
+                                      .process(new TextAppender('foo'))
                                       .to('touri');
       var route = builder.build();
       route.should.be.a.Route;

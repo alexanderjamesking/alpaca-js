@@ -1,6 +1,9 @@
 var assert = require('should'),
     sinon = require('sinon'),
-    Pipeline = require('../lib/pipeline');
+    Pipeline = require('../lib/pipeline'),
+    Exchange = require('../lib/exchange'),
+    Message = require('../lib/message'),
+    TextAppender = require('./processor/text_appender');
 
 describe('Pipeline', function() {
 
@@ -39,7 +42,7 @@ describe('Pipeline', function() {
 
       pipeline.addProcessor(stubProcessor);
 
-      pipeline.process(createExchange(), function(err, data) {
+      pipeline.process(new Exchange(), function(err, data) {
           spy.calledOnce.should.be.true;
           spy.calledOn(stubProcessor).should.be.true;
           done();
@@ -50,32 +53,11 @@ describe('Pipeline', function() {
       pipeline.addProcessor(new TextAppender('one '));
       pipeline.addProcessor(new TextAppender('two '));
       pipeline.addProcessor(new TextAppender('three'));
-      pipeline.process(createExchange(), function(err, data) {
-        data.inMessage.body.should.equal('one two three');
+      pipeline.process(new Exchange(), function(err, data) {
+        data.message.body.should.equal('one two three');
         done();
       });
     })
   });
-
-  function createExchange() {
-    return {
-      inMessage: {
-        headers : {},
-        body : ''
-      }
-    };
-  }
-
-  function TextAppender(textToAppend) {
-    var TextAppenderProcessor = function(textToAppend) {
-      this.textToAppend = textToAppend;
-    };
-
-    TextAppenderProcessor.prototype.process = function(exchange, callback) {
-      exchange.inMessage.body += this.textToAppend;
-      callback(null, exchange);
-    };
-    return new TextAppenderProcessor(textToAppend);
-  }
 
 });

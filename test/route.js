@@ -1,7 +1,10 @@
 var should = require('should'),
     sinon = require('sinon'),
     Route = require('../lib/route'),
-    Pipeline = require('../lib/pipeline');
+    Exchange = require('../lib/exchange'),
+    Message = require('../lib/message'),
+    Pipeline = require('../lib/pipeline'),
+    TextAppender = require('./processor/text_appender');
 
 describe('Route', function() {
 
@@ -47,16 +50,26 @@ describe('Route', function() {
     });
   });
 
+  it('should allow subscriptions for the to event', function(){
+    var route = new Route('fromuri', new Pipeline(), 'touri');
+    route.on('touri', function(exchange) {});
+  });
+
   describe('process', function() {
-    it('should call process on pipeline', function() {
-      var pipeline = sinon.spy();
-      pipeline.process = sinon.spy();
+    it('should dispatch event to touri when complete', function(done) {
+
+      var pipeline = new Pipeline();
+      pipeline.addProcessor(new TextAppender('foo'));
+      pipeline.addProcessor(new TextAppender('bar'));
 
       var route = new Route('fromuri', pipeline, 'touri');
-      route.process();
-      //pipeline.process();
-      pipeline.process.calledOnce.should.be.true;
 
+      route.on('touri', function(ex) {
+        ex.message.body.should.equal('foobar');
+        done();
+      });
+
+      route.process(new Exchange());
     });
   });
 

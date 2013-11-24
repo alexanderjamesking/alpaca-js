@@ -10,9 +10,10 @@ describe('Message', function() {
     message.headers.should.be.an.Object;
   });
 
-  it('body should default to null', function() {
+  it('body should default to empty string', function() {
     var message = new Message();
     message.should.have.property('body');
+    message.body.should.equal('');
   });
 
   it('should set headers if passed via constructor', function(){
