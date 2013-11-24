@@ -12,7 +12,7 @@
     "url": "https://github.com/alexanderjamesking/alpaca.git"
   },
   "bugs": {
-    "url": "https://github.com/caolan/async/issues"
+    "url": "https://github.com/alexanderjamesking/alpaca/issues"
   },
   "dependencies": {
     "async": "*"
