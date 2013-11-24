@@ -1,12 +1,12 @@
 {
-  "name" : "alpaca",
+  "name": "alpaca",
   "description": "EIP for Node.js, heavily influenced by Apache Camel",
   "main": "./lib/alpaca",
   "author": {
     "name": "Alex King",
-    "url" : "http://alexanderjamesking.com"
+    "url": "http://alexanderjamesking.com"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/alexanderjamesking/alpaca.git"
@@ -14,12 +14,12 @@
   "bugs": {
     "url": "https://github.com/caolan/async/issues"
   },
-  "dependencies" : {
-      "async" : "*"
+  "dependencies": {
+    "async": "*"
   },
-  "devDependencies" : {
-    "mocha" : "*",
-    "should" : "*",
-    "sinon" : "*"
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "sinon": "*"
   }
 }
