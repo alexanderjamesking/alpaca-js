@@ -1,12 +1,15 @@
 var assert = require('should'),
     Alpaca = require('../lib/alpaca'),
+    RouteBuilder = Alpaca.RouteBuilder,
+    Exchange = Alpaca.Exchange,
+    Message = Alpaca.Message,
     TextAppender = require('./processor/text_appender');
 
 describe('Alpaca', function() {
 
   it('should allow creation of simple route', function(done) {
 
-    var myRoute = new Alpaca.RouteBuilder().from("direct:in")
+    var myRoute = new RouteBuilder().from("direct:in")
                                            .process(new TextAppender('Hello '))
                                            .process(new TextAppender('World!'))
                                            .to('direct:out')
@@ -17,7 +20,7 @@ describe('Alpaca', function() {
       done();
     });
 
-    myRoute.process(new Alpaca.Exchange());
+    myRoute.process(new Exchange());
   });
 
 });
