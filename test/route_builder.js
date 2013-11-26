@@ -1,5 +1,6 @@
 var should = require('should'),
     RouteBuilder = require('../lib/route_builder'),
+    Context = require('../lib/context'),
     Route = require('../lib/route'),
     Pipeline = require('../lib/pipeline'),
     TextAppender = require('./processor/text_appender');
@@ -13,16 +14,16 @@ describe('RouteBuilder', function() {
     });
   });
 
-  it('from', function() {
+  it('from() should set from uri', function() {
     var builder = new RouteBuilder().from('myuri');
     builder.should.be.a.RouteBuilder;
-    builder.from.should.equal('myuri');
+    builder.fromUri.should.equal('myuri');
   });
 
-  it('to', function() {
+  it('to() should set to uri', function() {
     var builder = new RouteBuilder().to('myuri');
     builder.should.be.a.RouteBuilder;
-    builder.to.should.equal('myuri');
+    builder.toUri.should.equal('myuri');
   });
 
   describe('process', function() {
@@ -36,9 +37,21 @@ describe('RouteBuilder', function() {
     var builder = new RouteBuilder().from('fromuri')
                                     .process(new TextAppender('foo'))
                                     .to('touri');
-    builder.from.should.equal('fromuri');
+    builder.fromUri.should.equal('fromuri');
     builder.pipeline.processors.length.should.equal(1);
-    builder.to.should.equal('touri');
+    builder.toUri.should.equal('touri');
+  });
+
+  describe('multicast', function() {
+    it('should create a multicast processor with multiple destinations', function() {
+
+      var builder = new RouteBuilder(new Context());
+
+      builder.from('direct:myroute')
+             .multicast('direct:one', 'direct:two');
+
+      builder.pipeline.processors.length.should.equal(1);
+    })
   });
 
   describe('build', function() {
@@ -52,6 +65,45 @@ describe('RouteBuilder', function() {
       route.pipeline.processors.length.should.equal(1);
       route.to.should.equal('touri');
     });
+
+    it("should throw an error if 'to' is not a string", function(done) {
+      var builder = new RouteBuilder().from('fromuri')
+                                      .to(new TextAppender('foo'));
+      try {
+        builder.build();
+        done(new Error('Error was not thrown'));
+      } catch(e) {
+        e.message.should.equal("'to' endpoint must be a string");
+        done();
+      }
+    });
+
+    it("should throw an error if 'from' is not set", function(done) {
+      var builder = new RouteBuilder().process(new TextAppender('foo'))
+                                      .to('someuri');
+      try {
+        builder.build();
+        done(new Error('Error was not thrown'));
+      } catch(e) {
+        e.message.should.equal("'from' endpoint cannot be null");
+        done();
+      }
+    });
+
+    it("should throw an error if 'from' is not a string", function(done) {
+      var builder = new RouteBuilder().from(new TextAppender('foo'))
+                                      .to('someuri');
+      try {
+        builder.build();
+        done(new Error('Error was not thrown'));
+      } catch(e) {
+        e.message.should.equal("'from' endpoint must be a string");
+        done();
+      }
+    });
+
+
   });
+
 
 });

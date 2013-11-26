@@ -15,7 +15,8 @@
     "url": "https://github.com/alexanderjamesking/alpaca/issues"
   },
   "dependencies": {
-    "async": "*"
+    "async": "*",
+    "clone" : "*"
   },
   "devDependencies": {
     "mocha": "*",

@@ -56,7 +56,7 @@ describe('Route', function() {
   });
 
   describe('process', function() {
-    it('should dispatch event to touri when complete', function(done) {
+    it("should dispatch event 'to' when complete", function(done) {
 
       var pipeline = new Pipeline();
       pipeline.addProcessor(new TextAppender('foo'));
@@ -71,6 +71,18 @@ describe('Route', function() {
 
       route.process(new Exchange());
     });
+
+    it("should not error when processing if no 'to' set", function() {
+      var pipeline = new Pipeline();
+      pipeline.addProcessor(new TextAppender('one'));
+      pipeline.addProcessor(new TextAppender('two'));
+      pipeline.addProcessor(new TextAppender('three'));
+
+      var route = new Route('fromuri', pipeline);
+      route.process(new Exchange());
+
+    });
+
   });
 
 });
