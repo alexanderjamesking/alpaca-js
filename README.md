@@ -1,7 +1,7 @@
 alpaca
 ======
 
-EIP for Node.js, heavily influenced by Apache Camel.
+EIP for Node.js, influenced by Apache Camel.
 
 This is very much a work in progress, and functionality is somewhat limited at present. It should look similar to the Camel Java DSL when basic functionality 
 is in place.
