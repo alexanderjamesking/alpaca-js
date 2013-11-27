@@ -11,7 +11,6 @@ If you're interested in the project and would like to contribute please get in t
 
 Cheers
 
-Alex
 @superaking
 
 
