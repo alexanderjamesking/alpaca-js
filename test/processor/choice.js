@@ -36,13 +36,14 @@ describe('Choice', function() {
       });
     });
 
+    //TODO if a string 'to' is present it should dispatch an event
+    //TODO if a process 'to' is present it should call process on the to
   });
 
   function getChoiceWithMultipleWhens() {
     return new Choice()
                   .when(new When('message.body == "Marcus"', new TextAppender(' Trescothick')))
                   .when(new When('message.body == "Monty"', new TextAppender(' Panesar')));
-
   }
   
 });
