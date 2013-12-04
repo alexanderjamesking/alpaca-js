@@ -1,4 +1,4 @@
-alpaca
+Alpaca
 ======
 
 EIP for Node.js, influenced by Apache Camel.
@@ -13,6 +13,57 @@ Cheers
 
 @superaking
 
+
+
+## Key Concepts
+
+### Exchange
+Object passed between routes and processors, contains a Message.
+
+### Message
+Object that contains content and headers.
+
+### Endpoint
+URI that identifies an input or an output
+
+### Processor
+A function(exchange, callback) or an object with a process(exchange, callback) function, if object is passed then it binds to the object
+
+### Route
+Input endpoint, a pipeline and an optional output endpoint
+
+### Pipeline
+A list of processors that the exchange is passed through sequentially
+
+
+## Core Processors
+
+### When
+- contains a truthy expression (usually checking something on the exchange)
+- wraps a processor / endpoint
+
+### Choice
+- a list of When processors
+- loops through and sends to the first When processor whose expression is true
+
+### To
+- sends to an endpoint
+- calls back to the exchange
+
+### Multicast
+- sends to multiple endpoints or processors
+
+### Filter
+- filters based on an expression
+
+### Splitter
+
+### Aggregator
+
+### Wiretap
+
+
+## Basic Useage with Route Builder
 
 ```
 var Alpaca = require('alpaca'),
