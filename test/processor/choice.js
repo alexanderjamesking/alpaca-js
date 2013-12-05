@@ -19,6 +19,15 @@ describe('Choice', function() {
     choice.processors.length.should.equal(2);
   });
 
+  it('should be possible to add a processor as an otherwise', function(done) {
+    var choice = getChoiceWithMultipleWhens();
+    choice.otherwise(new TextAppender("Someone Else"));
+    choice.process(new Exchange(new Message(null, 'Not Marcus or Monty - ')), function(err, exchange) {
+        exchange.message.body.should.equal('Not Marcus or Monty - Someone Else');
+        done();
+    });
+  });
+
   describe('process', function() {
     it('should execute the first processor if the expression evaluates', function(done) {
       var choice = getChoiceWithMultipleWhens();

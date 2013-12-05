@@ -2,6 +2,8 @@ var assert = require('should'),
     Alpaca = require('../lib/alpaca'),
     Context = Alpaca.Context,
     RouteBuilder = Alpaca.RouteBuilder,
+    Choice = Alpaca.Choice,
+    When = Alpaca.When,
     Exchange = Alpaca.Exchange,
     Message = Alpaca.Message,
     TextAppender = require('./processor/text_appender');
@@ -76,5 +78,71 @@ describe('Alpaca', function() {
 
         cx.send('direct:multicast', new Exchange());
   });
+
+  describe('choice', function() {
+    it('should send to the first processor whose expression is true', function(done) {      
+      var cx = getContextWithChoiceRoute();
+      cx.on('out:choice', function(exchange) {
+        exchange.message.body.should.equal('Alexander!');
+        done();
+      });
+
+      cx.send('in:choice', new Exchange(new Message(null, "Alex")));
+    });
+
+    it('should allow routing to a processor based on an expression', function(done) {      
+      var cx = getContextWithChoiceRoute();
+      cx.on('out:choice', function(exchange) {
+        exchange.message.body.should.equal('Bob Dylan!');
+        done();
+      });
+
+      cx.send('in:choice', new Exchange(new Message(null, "Bob")));
+    });
+
+    it('should send to the otherwise if present and no other expressions match', function(done) {      
+      var cx = getContextWithChoiceRoute();
+      cx.on('out:choice', function(exchange) {
+        exchange.message.body.should.equal('Hello World!');
+        done();
+      });
+
+      cx.send('in:choice', new Exchange(new Message(null, "Hello")));
+    });
+
+    it('should work for things other than text', function(done) {
+      var cx = getContextWithChoiceRoute();
+      cx.on('out:choice', function(exchange) {
+        exchange.message.body.should.equal('Message has a few headers!');
+        done();
+      });
+
+      var headers = {
+        hello : "foobar",
+        number: 4
+      };
+
+      cx.send('in:choice', new Exchange(new Message(headers, "Message ")));
+    });
+
+    function getContextWithChoiceRoute() {
+      var cx = new Context();
+
+      var rb = new RouteBuilder(cx);
+      rb.from("in:choice")
+        .choice(new Choice()
+                  .when(new When('message.body == "Alex"', new TextAppender('ander')))
+                  .when(new When('Object.keys(message.headers).length > 1', new TextAppender('has a few headers')))
+                  .when(new When('message.body == "Bob"', new TextAppender(' Dylan')))
+                  .otherwise(new TextAppender(' World')))
+        .process(new TextAppender("!"))
+        .to("out:choice");
+
+      cx.addRoute(rb.build());
+
+      return cx;
+    }
+  });
+
 
 });

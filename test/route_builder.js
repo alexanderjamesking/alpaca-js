@@ -3,6 +3,8 @@ var should = require('should'),
     Context = require('../lib/context'),
     Route = require('../lib/route'),
     Pipeline = require('../lib/pipeline'),
+    Choice = require('../lib/processor/choice'),
+    When = require('../lib/processor/when'),
     TextAppender = require('./processor/text_appender');
 
 describe('RouteBuilder', function() {
@@ -52,6 +54,19 @@ describe('RouteBuilder', function() {
 
       builder.pipeline.processors.length.should.equal(1);
     })
+  });
+
+  describe('choice', function() {
+    it('should add a choice processor to the pipeline', function() {
+        var builder = new RouteBuilder();
+
+        builder.choice(new Choice()
+                        .when(new When('message.body == "Marcus"', new TextAppender(' Trescothick')))
+                        .when(new When('message.body == "Monty"', new TextAppender(' Panesar')))
+                        .otherwise(new TextAppender(' Nobody')));
+
+        builder.pipeline.processors.length.should.equal(1);
+    });
   });
 
   describe('build', function() {
