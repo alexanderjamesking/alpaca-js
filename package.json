@@ -19,6 +19,8 @@
     "clone": "*"
   },
   "devDependencies": {
+    "grunt": "*",   
+    "grunt-contrib-jshint": "*",
     "mocha": "*",
     "should": "*",
     "sinon": "*"

@@ -1,7 +1,7 @@
 var assert = require('should'),
     sinon = require('sinon'),
     Multicast = require('../../lib/processor/multicast'),
-    Exchange = require('../../lib/exchange');
+    Exchange = require('../../lib/exchange'),
     Context = require('../../lib/context'),
     TextAppender = require('./text_appender');
 
@@ -79,7 +79,7 @@ describe('Multicast', function() {
         processSpy.calledOnce.should.be.true;
         done();
       });
-    })
+    });
   });
   
 });

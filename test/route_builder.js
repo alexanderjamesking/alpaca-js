@@ -53,7 +53,7 @@ describe('RouteBuilder', function() {
              .multicast('direct:one', 'direct:two');
 
       builder.pipeline.processors.length.should.equal(1);
-    })
+    });
   });
 
   describe('choice', function() {

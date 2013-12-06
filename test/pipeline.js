@@ -10,7 +10,7 @@ describe('Pipeline', function() {
   var pipeline;
 
   beforeEach(function(){
-	  pipeline = new Pipeline();
+    pipeline = new Pipeline();
 	});
 
   it('should have an array of processors', function() {

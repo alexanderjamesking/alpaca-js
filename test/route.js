@@ -23,11 +23,6 @@ describe('Route', function() {
           e.message.should.equal('from must be a string');
         }
       });
-
-      it('should accept an object string', function() {
-        var route = new Route(new String('foo'));
-        route.from.should.equal('foo');
-      });
     });
 
     describe('pipeline', function() {
