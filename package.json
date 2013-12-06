@@ -21,6 +21,7 @@
   "devDependencies": {
     "grunt": "*",   
     "grunt-contrib-jshint": "*",
+    "grunt-mocha-test": "*",
     "mocha": "*",
     "should": "*",
     "sinon": "*"

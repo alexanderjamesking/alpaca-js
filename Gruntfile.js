@@ -1,6 +1,5 @@
 module.exports = function(grunt) {
-
-    grunt.initConfig({
+  grunt.initConfig({
     jshint: {
       src: ['Gruntfile.js', 'lib/*.js', 'lib/**/*.js', 'test/**/*.js'],
       options: {
@@ -31,13 +30,17 @@ module.exports = function(grunt) {
           afterEach: false
         }
       }
+    },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'dot'
+        },
+        src: ['test/**/*.js']
+      }
     }
   });
-
-  // Load JSHint task
+  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-
-  // Default task.
-  grunt.registerTask('default', 'jshint');
-    
+  grunt.registerTask('default', ['jshint', 'mochaTest']);
 };
