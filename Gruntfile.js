@@ -38,9 +38,16 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*.js']
       }
+    },
+    cucumberjs: {
+      src: 'features',
+      options: {
+        steps: "features/step_definitions"
+      }
     }
   });
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.registerTask('default', ['jshint', 'mochaTest']);
+  grunt.loadNpmTasks('grunt-cucumber');
+  grunt.registerTask('default', ['jshint', 'mochaTest', 'cucumberjs']);
 };

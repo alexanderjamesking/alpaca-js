@@ -31,53 +31,19 @@ describe('Route', function() {
         route.pipeline.should.be.a.Pipeline;
       });
     });
-
-    describe('to', function() {
-      it('should be the third argument', function() {
-        var route = new Route('fromuri',  new Pipeline(), 'touri');
-        route.to.should.equal('touri');
-      });
-
-      it('should default to null', function() {
-        var route = new Route('fromuri');
-        (route.to == null).should.be.true;
-      });
-    });
-  });
-
-  it('should allow subscriptions for the to event', function(){
-    var route = new Route('fromuri', new Pipeline(), 'touri');
-    route.on('touri', function(exchange) {});
   });
 
   describe('process', function() {
-    it("should dispatch event 'to' when complete", function(done) {
-
+    it("should callback when complete", function(done) {
       var pipeline = new Pipeline();
       pipeline.addProcessor(new TextAppender('foo'));
       pipeline.addProcessor(new TextAppender('bar'));
 
-      var route = new Route('fromuri', pipeline, 'touri');
-
-      route.on('touri', function(ex) {
-        ex.message.body.should.equal('foobar');
+      var route = new Route('fromuri', pipeline);
+      route.process(new Exchange(), function(exchange) {
+        exchange.message.body.should.equal('foobar');
         done();
       });
-
-      route.process(new Exchange());
     });
-
-    it("should not error when processing if no 'to' set", function() {
-      var pipeline = new Pipeline();
-      pipeline.addProcessor(new TextAppender('one'));
-      pipeline.addProcessor(new TextAppender('two'));
-      pipeline.addProcessor(new TextAppender('three'));
-
-      var route = new Route('fromuri', pipeline);
-      route.process(new Exchange());
-
-    });
-
   });
-
 });

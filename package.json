@@ -16,14 +16,17 @@
   },
   "dependencies": {
     "async": "*",
-    "clone": "*"
+    "clone": "*",
+    "winston": "*"
   },
   "devDependencies": {
     "grunt": "*",   
     "grunt-contrib-jshint": "*",
     "grunt-mocha-test": "*",
+    "grunt-cucumber": "*",
     "mocha": "*",
     "should": "*",
-    "sinon": "*"
+    "sinon": "*",
+    "cucumber": "*"
   }
 }

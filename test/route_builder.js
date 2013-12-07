@@ -5,6 +5,7 @@ var should = require('should'),
     Pipeline = require('../lib/pipeline'),
     Choice = require('../lib/processor/choice'),
     When = require('../lib/processor/when'),
+    To = require('../lib/processor/to'),
     TextAppender = require('./processor/text_appender');
 
 describe('RouteBuilder', function() {
@@ -22,10 +23,9 @@ describe('RouteBuilder', function() {
     builder.fromUri.should.equal('myuri');
   });
 
-  it('to() should set to uri', function() {
-    var builder = new RouteBuilder().to('myuri');
-    builder.should.be.a.RouteBuilder;
-    builder.toUri.should.equal('myuri');
+  describe('to() should add a To[Processor] to the pipeline', function() {
+    var builder = new RouteBuilder().from('myuri').to('anotherRoute');
+    builder.pipeline.processors.length.should.equal(1);
   });
 
   describe('process', function() {
@@ -37,11 +37,9 @@ describe('RouteBuilder', function() {
 
   it('should allow chaining of methods', function() {
     var builder = new RouteBuilder().from('fromuri')
-                                    .process(new TextAppender('foo'))
-                                    .to('touri');
+                                    .process(new TextAppender('foo'));
     builder.fromUri.should.equal('fromuri');
     builder.pipeline.processors.length.should.equal(1);
-    builder.toUri.should.equal('touri');
   });
 
   describe('multicast', function() {
@@ -72,30 +70,15 @@ describe('RouteBuilder', function() {
   describe('build', function() {
     it('should create a route', function() {
       var builder = new RouteBuilder().from('fromuri')
-                                      .process(new TextAppender('foo'))
-                                      .to('touri');
+                                      .process(new TextAppender('foo'));
       var route = builder.build();
       route.should.be.a.Route;
       route.from.should.equal('fromuri');
       route.pipeline.processors.length.should.equal(1);
-      route.to.should.equal('touri');
-    });
-
-    it("should throw an error if 'to' is not a string", function(done) {
-      var builder = new RouteBuilder().from('fromuri')
-                                      .to(new TextAppender('foo'));
-      try {
-        builder.build();
-        done(new Error('Error was not thrown'));
-      } catch(e) {
-        e.message.should.equal("'to' endpoint must be a string");
-        done();
-      }
     });
 
     it("should throw an error if 'from' is not set", function(done) {
-      var builder = new RouteBuilder().process(new TextAppender('foo'))
-                                      .to('someuri');
+      var builder = new RouteBuilder().process(new TextAppender('foo'));
       try {
         builder.build();
         done(new Error('Error was not thrown'));
@@ -106,8 +89,7 @@ describe('RouteBuilder', function() {
     });
 
     it("should throw an error if 'from' is not a string", function(done) {
-      var builder = new RouteBuilder().from(new TextAppender('foo'))
-                                      .to('someuri');
+      var builder = new RouteBuilder().from(new TextAppender('foo'));
       try {
         builder.build();
         done(new Error('Error was not thrown'));
@@ -116,7 +98,6 @@ describe('RouteBuilder', function() {
         done();
       }
     });
-
 
   });
 

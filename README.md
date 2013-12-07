@@ -3,6 +3,8 @@ Alpaca
 
 EIP for Node.js, influenced by Apache Camel.
 
+WARNING - NOT PRODUCTION READY
+
 This is very much a work in progress, and functionality is somewhat limited at present. It should look similar to the Camel Java DSL when basic functionality is in place.
 
 Currently only a basic route (pipeline of processors) and multicast supported. I'll be adding content and header based routing next which will be the minimum requirements for this to start to be useful in projects.
