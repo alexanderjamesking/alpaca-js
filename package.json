@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "grunt": "*",
+    "grunt-contrib-watch": "*",
     "grunt-contrib-jshint": "*",
     "grunt-mocha-test": "*",
     "grunt-cucumber": "*",

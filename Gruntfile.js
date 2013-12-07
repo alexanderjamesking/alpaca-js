@@ -44,10 +44,20 @@ module.exports = function(grunt) {
       options: {
         steps: "features/step_definitions"
       }
+    },
+    watch: {
+      scripts: {
+        files: ['lib/*.js', 'test/*.js', 'features/*.feature', 'features/**/*.js'],
+        tasks: ['jshint', 'mochaTest', 'cucumberjs'],
+        options: {
+          debounceDelay: 250,
+        },
+      },
     }
   });
-  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-cucumber');
   grunt.registerTask('default', ['jshint', 'mochaTest', 'cucumberjs']);
 };
