@@ -1,6 +1,6 @@
 Feature: Request
-  As an Alpaca developer
-  I want routes that return a response
+  As a developer
+  I want routes to return a response
   So that I can create a workflow within my app
 
   Scenario: A simple 'Hello World' route

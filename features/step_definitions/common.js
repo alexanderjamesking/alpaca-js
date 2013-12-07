@@ -14,6 +14,7 @@ var steps = function () {
   this.Before(function(callback) {
     world.context = new Context();
     world.exchange = null;
+    world.spies = {};
     callback();
   });
 
