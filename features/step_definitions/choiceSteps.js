@@ -31,9 +31,14 @@ var steps = function () {
     var choice = new Choice();
 
     for (var i = 0; i < rows.length; i++) {
-      var expression = rows[i][0];  
-      var textToAppend = rows[i][1];
-      choice.when(new When('message.body === "A"', new TextAppender(textToAppend)));
+      var action = rows[i][0];
+      var expression = rows[i][1];  
+      var textToAppend = rows[i][2];
+
+      if (action === "when")
+        choice.when(new When('message.body === "A"', new TextAppender(textToAppend)));
+      else if (action === "otherwise")
+        choice.otherwise(new TextAppender(textToAppend))
     }
     
     world.context.addRoute(
@@ -46,8 +51,8 @@ var steps = function () {
     callback();
   });
 
-  this.Then(/^output A receives the message$/, function(callback) {
-    world.exchange.message.body.should.equal('A-choiceA');
+  this.Then(/^the exchange body contains "([^"]*)"$/, function(expectedBody, callback) {
+    world.exchange.message.body.should.equal(expectedBody);
     callback();
   });
 
