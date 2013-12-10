@@ -13,16 +13,6 @@ var steps = function () {
 
   var world = this.World;
 
-  this.When(
-    /^I send an exchange to the "([^"]*)" route with the body "([^"]*)"$/, 
-    function(endpoint, body, callback) {
-
-    world.context.request(endpoint, new Exchange(new Message(null, body)), function(exchange) {
-      world.exchange = exchange;
-      callback();
-    });
-  });
-
   this.Given(
     /^a route "([^"]*)" which routes content based on the expressions:$/, 
     function(endpoint, table, callback) {
@@ -36,7 +26,7 @@ var steps = function () {
       var textToAppend = rows[i][2];
 
       if (action === "when")
-        choice.when(new When('message.body === "A"', new TextAppender(textToAppend)));
+        choice.when(new When(expression, new TextAppender(textToAppend)));
       else if (action === "otherwise")
         choice.otherwise(new TextAppender(textToAppend))
     }
@@ -51,7 +41,20 @@ var steps = function () {
     callback();
   });
 
+  this.When(
+    /^I send an exchange to the "([^"]*)" route with the body "([^"]*)"$/, 
+    function(endpoint, body, callback) {
+
+console.log(endpoint);
+
+    world.context.request(endpoint, new Exchange(new Message(null, body)), function(exchange) {
+      world.exchange = exchange;
+      callback();
+    });
+  });
+
   this.Then(/^the exchange body contains "([^"]*)"$/, function(expectedBody, callback) {
+    console.log(world.exchange);
     world.exchange.message.body.should.equal(expectedBody);
     callback();
   });

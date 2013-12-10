@@ -11,6 +11,14 @@ Feature: Multicast
     When I send an exchange to the "choice" route with the body "A"
     Then the exchange body contains "A-matched choice A"
 
+  Scenario: Message should be sent to choice B
+    Given a route "choice" which routes content based on the expressions:
+      | action | expression           | append text       |
+      | when   | message.body === "A" | -matched choice A |
+      | when   | message.body === "B" | -matched choice B |
+    When I send an exchange to the "choice" route with the body "B"
+    Then the exchange body contains "B-matched choice B"
+
   Scenario: Message should be sent to otherwise processor
     Given a route "choice" which routes content based on the expressions:
       | action    | expression           | append text            |
