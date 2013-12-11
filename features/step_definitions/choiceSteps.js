@@ -45,8 +45,6 @@ var steps = function () {
     /^I send an exchange to the "([^"]*)" route with the body "([^"]*)"$/, 
     function(endpoint, body, callback) {
 
-console.log(endpoint);
-
     world.context.request(endpoint, new Exchange(new Message(null, body)), function(exchange) {
       world.exchange = exchange;
       callback();
@@ -54,7 +52,6 @@ console.log(endpoint);
   });
 
   this.Then(/^the exchange body contains "([^"]*)"$/, function(expectedBody, callback) {
-    console.log(world.exchange);
     world.exchange.message.body.should.equal(expectedBody);
     callback();
   });
