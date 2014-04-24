@@ -11,6 +11,8 @@ Currently only a basic route (pipeline of processors) and multicast supported. I
 
 If you're interested in the project and would like to contribute please get in touch
 
+UPDATE - I've since decided that a full EIP like Camel for Node.js is too heavyweight and we are better off focusing on microservices so I've stopped work on this project. I'd recommend using the async library (https://github.com/caolan/async) for pipelines and writing small functions, I'm not convinced node projects should be any bigger than that.
+
 Cheers
 
 @superaking
