@@ -1,16 +1,6 @@
 Alpaca
 ======
 
-EIP for Node.js, influenced by Apache Camel.
-
-WARNING - NOT PRODUCTION READY
-
-This is very much a work in progress, and functionality is somewhat limited at present. It should look similar to the Camel Java DSL when basic functionality is in place.
-
-Currently only a basic route (pipeline of processors) and multicast supported. I'll be adding content and header based routing next which will be the minimum requirements for this to start to be useful in projects.
-
-If you're interested in the project and would like to contribute please get in touch
-
 UPDATE - I've since decided that a full EIP like Camel for Node.js is too heavyweight and we are better off focusing on microservices so I've stopped work on this project. I'd recommend using the async library (https://github.com/caolan/async) for pipelines and writing small functions, I'm not convinced node projects should be any bigger than that.
 
 Cheers
